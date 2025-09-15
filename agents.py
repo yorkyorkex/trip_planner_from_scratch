@@ -5,6 +5,11 @@ from openai import OpenAI
 from tools.search_tools import SearchTools
 from tools.calculator_tools import CalculatorTools
 
+# 創建工具實例
+search_tool = SearchTools.search_internet
+calculator_tools = CalculatorTools()
+calculator_tool = calculator_tools.calculate
+
 
 
 """
@@ -45,10 +50,9 @@ class TravelAgents:
             role="Expert Travel Agent",
             backstory=dedent(f"""An experienced travel agent with a passion for creating personalized itineraries. Has traveled to over 50 countries and has a deep understanding of various cultures and travel logistics."""),
             goal=dedent(f"""Create a comprehensive 7-day travel itinerary for a client, including budget, packing suggestions, and safety tips."""),
-            # tools=[SearchTools.search_internet,CalculatorTools.calculate ],
-            #allow_delegation=False,
+            tools=[search_tool],
+            allow_delegation=False,
             verbose=True,
-            # 使用模型名稱字符串而不是 lambda 函數
         )
 
     def city_selection_expert(self):
@@ -56,10 +60,9 @@ class TravelAgents:
             role="City Selection Expert",
             backstory=dedent(f"""A knowledgeable travel consultant specializing in selecting the best cities for various types of travelers. Has a knack for understanding client preferences and matching them with ideal destinations."""),
             goal=dedent(f"""Identify the top 3 cities for a client's 7-day trip based on their interests, budget, weather, season, and travel style."""),
-            # tools=[SearchTools.search_internet],
-            #allow_delegation=False,
+            tools=[search_tool],
+            allow_delegation=False,
             verbose=True,
-            # 使用模型名稱字符串而不是 lambda 函數
         )
 
     def local_tour_guide(self):
@@ -67,8 +70,7 @@ class TravelAgents:
             role="Local Tour Guide",
             backstory=dedent(f"""A friendly and knowledgeable local guide with extensive experience in showing travelers the hidden gems of their city. Passionate about sharing local culture, history, and cuisine."""),
             goal=dedent(f"""Create a detailed daily itinerary for the client's 7-day trip, including must-see attractions, local dining options, and unique experiences."""),
-            # tools=[SearchTools.search_internet],
-            #allow_delegation=False,
+            tools=[search_tool],
+            allow_delegation=False,
             verbose=True,
-            # 使用模型名稱字符串而不是 lambda 函數
         )
