@@ -6,6 +6,7 @@ from crewai import  Crew #, Agent, Task, Process
 from textwrap import dedent
 from agents import TravelAgents
 from tasks import TravelTasks
+from output_formatter import OutputFormatter
 
 
 from dotenv import load_dotenv
@@ -103,3 +104,26 @@ if __name__ == "__main__":
     print("## Here is you Trip Plan")
     print("##############################\n")
     print(result)
+    
+    # Automatically save beautiful file formats
+    print("\n##############################")
+    print("## Generating output files...")
+    print("##############################\n")
+    
+    formatter = OutputFormatter()
+    files_created = formatter.save_all_formats(
+        content=str(result),
+        origin=location,
+        cities=cities,
+        date_range=date_range,
+        interests=interests
+    )
+    
+    print("✅ File generation completed!")
+    for format_type, filepath in files_created.items():
+        print(f"📁 {format_type.upper()} format: {filepath}")
+    
+    print("\n🌟 You can view your travel plan at the following locations:")
+    if 'html' in files_created:
+        print(f"🌐 View in browser: file:///{os.path.abspath(files_created['html']).replace(chr(92), '/')}")
+    print(f"📂 Folder location: {os.path.abspath('output')}")
